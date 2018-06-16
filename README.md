@@ -4,6 +4,8 @@
    1. Core
        1. Thread
             1. [Join](https://gist.github.com/PiyushMittl/1ebfaf263bd9458ff1b9518ea158854b)
+       2. Map
+            2. [hashcode() and equals()]http://piyushanandmittal.blogspot.com/2018/06/javaequalsandhashcode.html
     2. Design Pattern
        1. Creational Design Patterns
             1. [Singleton Pattern](https://gist.github.com/PiyushMittl/ab105ca8220010365e66e9d16c0b3d72)
