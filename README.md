@@ -2,9 +2,9 @@
 
 1. Java
    1. Core
-       1. Data Types
-            1.Integer
-               1. [Autoboxing and Unboxing]()
+       1. Data Types  
+            1.Integer  
+                1. [Autoboxing and Unboxing]
        2. Thread
             1. [Join](https://gist.github.com/PiyushMittl/1ebfaf263bd9458ff1b9518ea158854b)
        3. Map
