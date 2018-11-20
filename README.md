@@ -9,6 +9,9 @@
             1. [Join](https://gist.github.com/PiyushMittl/1ebfaf263bd9458ff1b9518ea158854b)
        3. Map
             1. [hashcode() and equals()](http://piyushanandmittal.blogspot.com/2018/06/javaequalsandhashcode.html)
+       4. Overriding
+            1. [overriding]()
+            
     2. Design Pattern
        1. Creational Design Patterns
             1. [Singleton Pattern](https://gist.github.com/PiyushMittl/ab105ca8220010365e66e9d16c0b3d72)
