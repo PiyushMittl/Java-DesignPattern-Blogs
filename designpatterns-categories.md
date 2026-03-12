@@ -48,4 +48,35 @@ These manage object interactions and responsibilities, promoting loose coupling 
 
 Understanding these groups helps pick the right tool fast—**creational** for instantiation headaches, **structural** for architecture glue, **behavioral** for dynamic behavior. In interviews, explain with a real scenario: "For our distributed cache, Singleton ensured one instance while Observer handled invalidations."
 
-**Start applying one per week in your code.** Next post: Deep dive on Observer for event-driven systems. What category interests you most?
+## Complete List of Design Patterns
+### 1. Creational Design Patterns
+- **Factory Pattern**
+- **Abstract Factory Pattern** 
+- **Singleton Pattern**
+- **Prototype Pattern**
+- **Builder Pattern**
+- **Object Pool Pattern**
+
+### 2. Structural Design Patterns
+- **Adapter Pattern**
+- **Bridge Pattern**
+- **Composite Pattern**
+- **Decorator Pattern**
+- **Facade Pattern**
+- **Flyweight Pattern**
+- **Proxy Pattern**
+
+### 3. Behavioral Design Patterns
+- **Chain of Responsibility Pattern**
+- **Command Pattern**
+- **Interpreter Pattern**
+- **Iterator Pattern**
+- **Mediator Pattern**
+- **Memento Pattern**
+- **Observer Pattern**
+- **State Pattern**
+- **Strategy Pattern**
+- **Template Method Pattern**
+- **Visitor Pattern**
+
+**Start applying one per week in your code.**
