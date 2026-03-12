@@ -155,6 +155,35 @@ public class PaymentProcessorFactory {
     }
 }
 
+// Configuration service to manage application settings
+public class ConfigService {
+    private final Properties properties;
+
+    public ConfigService() {
+        this.properties = new Properties();
+        loadConfiguration();
+    }
+
+    private void loadConfiguration() {
+        // Load from environment variables, config file, or database
+        String provider = System.getenv("PAYMENT_PROVIDER");
+        if (provider != null) {
+            properties.setProperty("payment.provider", provider);
+        } else {
+            // Default to stripe
+            properties.setProperty("payment.provider", "stripe");
+        }
+    }
+
+    public String getPaymentProvider() {
+        return properties.getProperty("payment.provider", "stripe");
+    }
+
+    public void setPaymentProvider(String provider) {
+        properties.setProperty("payment.provider", provider);
+    }
+}
+
 // Usage - completely decoupled
 public class OrderService {
     private final ConfigService config;
@@ -174,6 +203,26 @@ public class OrderService {
         String paymentId = processor.processPayment(amount, currency);
 
         return paymentId;
+    }
+}
+
+// Example usage with dependency injection
+public class Main {
+    public static void main(String[] args) {
+        // Create config service
+        ConfigService config = new ConfigService();
+
+        // Inject into order service
+        OrderService orderService = new OrderService(config);
+
+        // Process order
+        String paymentId = orderService.checkout(
+            "ORDER-123", 
+            new BigDecimal("99.99"), 
+            "USD"
+        );
+
+        System.out.println("Payment processed: " + paymentId);
     }
 }
 ```
