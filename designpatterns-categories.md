@@ -1,6 +1,6 @@
 # Understanding Design Patterns: Creational, Structural, and Behavioral Categories
 
-In large-scale cloud systems and microservices, codebases often grow messy with duplicated logic, rigid structures, and tangled communications. Design patterns offer proven, reusable solutions to these problems, categorized into three main types by the "Gang of Four" book: **creational**, **structural**, and **behavioral**. This post breaks them down with backend examples to help you recognize and apply them in real projects.[web:17][web:19]
+In large-scale cloud systems and microservices, codebases often grow messy with duplicated logic, rigid structures, and tangled communications. Design patterns offer proven, reusable solutions to these problems, categorized into three main types by the "Gang of Four" book: **creational**, **structural**, and **behavioral**. This post breaks them down with backend examples to help you recognize and apply them in real projects.
 
 ## Creational Patterns
 
