@@ -850,7 +850,6 @@ public void testShoppingCartWithDifferentPayments() {
     // All should process the same $150 total
 }
 ```
-
 **Real-World Impact:**
 
 **E-commerce Payment System:**
