@@ -2,16 +2,35 @@
 
 ## The Problem
 
-Imagine you're building a payment microservice for an e-commerce platform. Your team hardcoded Stripe payment logic throughout 50+ files. Six months later, business wants to add PayPal and Apple Pay support. Now you're facing:
+Imagine you're building an e-commerce platform with three common scenarios:
 
-- 200+ code changes across multiple services
-- 2-week deployment cycle with high risk
-- Broken tests everywhere
-- Every new payment gateway = full system refactor
+### Scenario 1: Hardcoded Payment Logic (Strategy Problem)
+Your shopping cart has hardcoded PayPal payment logic. Business wants to add Credit Cards and Bitcoin. Now you're facing:
+- 50+ if-else statements across checkout flow
+- Every new payment method breaks existing tests
+- Can't test payment methods independently
+- 2-week deployment cycle for each new payment gateway
 
-**Design patterns solve exactly this.** With a Factory pattern, adding PayPal takes 2 hours and zero changes to existing code.
+### Scenario 2: Rigid Product Creation (Factory Problem)
+Your mobile phone shop creates MiBolt and MiFire models with hardcoded `new` statements everywhere. When MiUltra launches:
+- 30+ files need modifications
+- Code changes in production logic = high risk
+- Violates Open/Closed Principle
+- Adding one model takes 3 days instead of 15 minutes
 
-In large-scale cloud systems and microservices, codebases often grow messy with duplicated logic, rigid structures, and tangled communications. Design patterns offer proven, reusable solutions to these problems, categorized into three main types by the "Gang of Four" book: **creational**, **structural**, and **behavioral**. This post breaks them down with backend examples to help you recognize and apply them in real projects.
+### Scenario 3: Fixed Membership Packages (Decorator Problem)
+Your EdTech platform offers fixed membership bundles (Basic, Premium, Ultimate). Students want flexible features:
+- 2^n class explosion for every feature combination
+- Can't add features dynamically at checkout
+- A/B testing requires code deployment
+- Revenue lost because customers want mix-and-match
+
+**Design patterns solve exactly these problems:**
+- **Strategy Pattern**: Adding Bitcoin payment takes 30 minutes, zero cart changes
+- **Factory Pattern**: Launching MiUltra model takes 15 minutes, zero breaking changes
+- **Decorator Pattern**: Adding new membership features takes 5 minutes, test independently
+
+In large-scale cloud systems and microservices, codebases often grow messy with duplicated logic, rigid structures, and tangled communications. Design patterns offer proven, reusable solutions to these problems, categorized into three main types by the "Gang of Four" book: **creational**, **structural**, and **behavioral**. This post breaks them down with **real backend examples** using mobile phones, payment processing, and membership systems to help you recognize and apply them in actual projects.
 
 ## Quick Pattern Selector
 
