@@ -46,6 +46,81 @@ These patterns focus on flexible object creation, abstracting the instantiation 
 
 ### Real Code Example: Factory Pattern
 
+**UML Class Diagram - Factory Pattern:**
+```mermaid
+classDiagram
+    class MiModel {
+        <<abstract>>
+        +CPU() void
+        +RAM() void
+        +Price() void
+    }
+
+    class MiBolt {
+        +CPU() void : C3 Processor
+        +RAM() void : 4GB RAM
+        +Price() void : $250
+    }
+
+    class MiFire {
+        +CPU() void : C4 Processor
+        +RAM() void : 8GB RAM
+        +Price() void : $350
+    }
+
+    class MiUltra {
+        +CPU() void : C5 Processor
+        +RAM() void : 12GB RAM
+        +Price() void : $500
+    }
+
+    class FactoryMethodClass {
+        <<Factory>>
+        +getInstance(String model)$ MiModel
+    }
+
+    class MobileShop {
+        +produceMobile(String model) MiModel
+    }
+
+    MiModel <|-- MiBolt : extends
+    MiModel <|-- MiFire : extends
+    MiModel <|-- MiUltra : extends
+    FactoryMethodClass ..> MiModel : creates
+    FactoryMethodClass ..> MiBolt : creates
+    FactoryMethodClass ..> MiFire : creates
+    FactoryMethodClass ..> MiUltra : creates
+    MobileShop --> FactoryMethodClass : uses
+    MobileShop --> MiModel : works with
+
+    note for FactoryMethodClass "Encapsulates object creation logic<br/>Client doesn't know concrete classes"
+    note for MobileShop "Client code - decoupled from<br/>concrete implementations"
+```
+
+**Factory Pattern Object Creation Flow:**
+```mermaid
+sequenceDiagram
+    participant Client as MobileShop
+    participant Factory as FactoryMethodClass
+    participant Product as MiModel
+    participant Concrete as MiBolt/MiFire/MiUltra
+
+    Client->>Factory: getInstance("MiBolt")
+    Factory->>Factory: Check model type
+    Factory->>Concrete: new MiBolt()
+    Concrete-->>Factory: MiBolt instance
+    Factory-->>Client: return MiModel
+
+    Client->>Product: CPU()
+    Product-->>Client: C3 Processor
+    Client->>Product: RAM()
+    Product-->>Client: 4GB RAM
+    Client->>Product: Price()
+    Product-->>Client: $250
+
+    Note over Client,Concrete: Client only knows MiModel interface<br/>Factory handles concrete instantiation
+```
+
 **❌ Without Factory (Rigid & Hard to Maintain):**
 ```java
 // Client code - tightly coupled to specific mobile models
@@ -247,6 +322,63 @@ These deal with class and object composition, making large structures flexible w
 
 **Business Scenario:**
 An online learning platform offers a base lifetime subscription. Students can dynamically add premium features like Assignments, Doubt Sessions, and Job Assistance. Each feature should add to the total cost without modifying the base subscription code.
+
+**UML Class Diagram:**
+```mermaid
+classDiagram
+    class Member {
+        <<interface>>
+        +cost() int
+    }
+    class LifetimeSubscription {
+        +cost() int : 1000
+    }
+    class Decorator {
+        <<abstract>>
+        #Member m
+        +cost() int
+    }
+    class Assignments {
+        +cost() int : m.cost() + 300
+    }
+    class DoubtSession {
+        +cost() int : m.cost() + 500
+    }
+    class JobAssistance {
+        +cost() int : m.cost() + 900
+    }
+    class OneOnOneMentorship {
+        +cost() int : m.cost() + 1500
+    }
+
+    Member <|.. LifetimeSubscription : implements
+    Member <|.. Decorator : implements
+    Decorator <|-- Assignments : extends
+    Decorator <|-- DoubtSession : extends
+    Decorator <|-- JobAssistance : extends
+    Decorator <|-- OneOnOneMentorship : extends
+    Decorator o-- Member : wraps
+
+    note for LifetimeSubscription "Base: $1000"
+    note for Assignments "Add: $300"
+    note for DoubtSession "Add: $500"
+    note for JobAssistance "Add: $900"
+```
+
+**Decorator Composition Flow:**
+```mermaid
+graph LR
+    A[LifetimeSubscription<br/>$1000] --> B[Assignments<br/>$1000 + $300 = $1300]
+    B --> C[DoubtSession<br/>$1300 + $500 = $1800]
+    C --> D[JobAssistance<br/>$1800 + $900 = $2700]
+    D --> E[OneOnOneMentorship<br/>$2700 + $1500 = $4200]
+
+    style A fill:#FFE4B5
+    style B fill:#E0FFE0
+    style C fill:#E0F0FF
+    style D fill:#FFE0FF
+    style E fill:#FFD700
+```
 
 **❌ Without Decorator (Rigid & Unmaintainable):**
 ```java
@@ -603,6 +735,114 @@ These manage object interactions and responsibilities, promoting loose coupling 
 
 **Business Scenario:**
 An e-commerce platform needs to support multiple payment methods (Credit Card, PayPal, Bitcoin). The payment logic should be interchangeable at runtime based on customer preference without modifying the shopping cart code.
+
+
+**UML Class Diagram - Strategy Pattern:**
+```mermaid
+classDiagram
+    class Payment {
+        <<interface>>
+        +pay(int amount) void
+    }
+
+    class CreditCard {
+        -String cardNo
+        -String cvv
+        -String dateOfExpiry
+        +pay(int amount) void
+    }
+
+    class Paypal {
+        -String emailId
+        -String password
+        +pay(int amount) void
+    }
+
+    class Bitcoin {
+        -String walletAddress
+        +pay(int amount) void
+    }
+
+    class Item {
+        -String upcCode
+        -int price
+        +getPrice() int
+    }
+
+    class PaymentStrategy {
+        -List~Item~ items
+        +addItem(Item item) void
+        +calculateTotal() int
+        +pay(Payment method) void
+    }
+
+    Payment <|.. CreditCard : implements
+    Payment <|.. Paypal : implements
+    Payment <|.. Bitcoin : implements
+    PaymentStrategy --> Payment : uses strategy
+    PaymentStrategy o-- Item : contains
+
+    note for Payment "Strategy Interface<br/>Defines payment contract"
+    note for PaymentStrategy "Context Class<br/>Uses payment strategies<br/>without knowing details"
+    note for CreditCard "Concrete Strategy 1"
+    note for Paypal "Concrete Strategy 2"
+    note for Bitcoin "Concrete Strategy 3"
+```
+
+**Strategy Pattern Execution Flow:**
+```mermaid
+sequenceDiagram
+    participant Client
+    participant Cart as PaymentStrategy
+    participant Strategy as Payment
+    participant Concrete as CreditCard/Paypal/Bitcoin
+
+    Client->>Cart: addItem(item1)
+    Client->>Cart: addItem(item2)
+
+    Note over Client: Customer selects payment method
+
+    Client->>Concrete: new Paypal(email, password)
+    Concrete-->>Client: paypal instance
+
+    Client->>Cart: pay(paypal)
+    Cart->>Cart: calculateTotal()
+    Cart->>Strategy: pay(amount)
+    Strategy->>Concrete: execute Paypal payment
+    Concrete-->>Client: Payment processed
+
+    Note over Cart,Concrete: Cart doesn't know which<br/>payment method is used!<br/>Strategy is injected at runtime
+```
+
+**Strategy Selection Flow:**
+```mermaid
+flowchart TD
+    A[Customer at Checkout] --> B{Select Payment Method}
+    B -->|Credit Card| C[Create CreditCard Strategy]
+    B -->|PayPal| D[Create Paypal Strategy]
+    B -->|Bitcoin| E[Create Bitcoin Strategy]
+
+    C --> F[Inject into Cart]
+    D --> F
+    E --> F
+
+    F --> G[Cart.pay strategy]
+    G --> H[Strategy.pay amount]
+
+    H --> I{Which Strategy?}
+    I -->|CreditCard| J[Process Card Payment]
+    I -->|Paypal| K[Process PayPal Payment]
+    I -->|Bitcoin| L[Process Bitcoin Payment]
+
+    J --> M[Payment Complete]
+    K --> M
+    L --> M
+
+    style B fill:#FFE4B5
+    style F fill:#E0FFE0
+    style H fill:#E0F0FF
+    style M fill:#90EE90
+```
 
 **❌ Without Strategy (Rigid Conditional Logic):**
 ```java
@@ -973,6 +1213,121 @@ This is the power of behavioral patterns in production systems! 🚀
 ## How Patterns Work Together
 
 Real-world patterns are rarely used in isolation. Here's how they compose in an actual e-commerce platform:
+
+**Combined Pattern Architecture Diagram:**
+```mermaid
+graph TB
+    subgraph "Client Layer"
+        Client[Client/Customer]
+    end
+
+    subgraph "Singleton Pattern"
+        Config[ConfigManager<br/>Singleton Instance]
+    end
+
+    subgraph "Factory Pattern"
+        Factory[PaymentFactory]
+        Factory -->|creates| CC[CreditCard]
+        Factory -->|creates| PP[Paypal]
+        Factory -->|creates| BTC[Bitcoin]
+    end
+
+    subgraph "Strategy Pattern"
+        Cart[PaymentStrategy<br/>Shopping Cart]
+        Payment[Payment Interface]
+        CC -.implements.-> Payment
+        PP -.implements.-> Payment
+        BTC -.implements.-> Payment
+    end
+
+    subgraph "Decorator Pattern"
+        Base[LifetimeSubscription]
+        D1[Assignments Decorator]
+        D2[DoubtSession Decorator]
+        D3[JobAssistance Decorator]
+        Base --> D1 --> D2 --> D3
+    end
+
+    subgraph "Observer Pattern"
+        EventBus[Event Bus]
+        EventBus -->|notifies| Order[Order Service]
+        EventBus -->|notifies| Inv[Inventory Service]
+        EventBus -->|notifies| Email[Email Service]
+        EventBus -->|notifies| Analytics[Analytics Service]
+    end
+
+    Client -->|1. Get Config| Config
+    Config -->|2. Configure| Factory
+    Client -->|3. Select Payment Type| Factory
+    Factory -->|4. Create Instance| Payment
+    Client -->|5. Build Features| Base
+    Client -->|6. Add Items| Cart
+    Payment -->|7. Inject Strategy| Cart
+    Cart -->|8. Process Payment| Payment
+    Cart -->|9. Publish Event| EventBus
+
+    style Config fill:#FFE4B5
+    style Factory fill:#E0FFE0
+    style Cart fill:#E0F0FF
+    style Base fill:#FFE0FF
+    style EventBus fill:#FFD700
+
+    classDef singleton fill:#FFE4B5,stroke:#333,stroke-width:2px
+    classDef factory fill:#E0FFE0,stroke:#333,stroke-width:2px
+    classDef strategy fill:#E0F0FF,stroke:#333,stroke-width:2px
+    classDef decorator fill:#FFE0FF,stroke:#333,stroke-width:2px
+    classDef observer fill:#FFD700,stroke:#333,stroke-width:2px
+```
+
+**Factory + Strategy Integration Flow:**
+```mermaid
+sequenceDiagram
+    autonumber
+    participant C as Client
+    participant CF as ConfigManager<br/>(Singleton)
+    participant F as PaymentFactory<br/>(Factory)
+    participant P as Payment<br/>(Strategy Interface)
+    participant CS as PaymentStrategy<br/>(Context/Cart)
+    participant E as EventBus<br/>(Observer)
+
+    rect rgb(255, 228, 181)
+    Note over C,CF: Step 1: Get Configuration (Singleton)
+    C->>CF: getInstance()
+    CF-->>C: config instance
+    C->>CF: isBitcoinEnabled()
+    CF-->>C: true/false
+    end
+
+    rect rgb(224, 255, 224)
+    Note over C,F: Step 2: Create Payment Method (Factory)
+    C->>F: createPaymentMethod("paypal", credentials)
+    F->>F: Check payment type
+    F->>P: new Paypal(email, password)
+    P-->>F: paypal instance
+    F-->>C: Payment strategy
+    end
+
+    rect rgb(224, 240, 255)
+    Note over C,CS: Step 3: Use Strategy (Strategy Pattern)
+    C->>CS: addItem(item1)
+    C->>CS: addItem(item2)
+    C->>CS: pay(paypalStrategy)
+    CS->>CS: calculateTotal()
+    CS->>P: pay(totalAmount)
+    P-->>CS: payment processed
+    end
+
+    rect rgb(255, 215, 0)
+    Note over CS,E: Step 4: Notify Services (Observer)
+    CS->>E: publish("payment.completed", event)
+    E->>E: Order Service notified
+    E->>E: Inventory Service notified
+    E->>E: Email Service notified
+    E->>E: Analytics Service notified
+    end
+
+    CS-->>C: Checkout complete
+```
 
 ### Example: E-commerce Order & Payment System Architecture
 
