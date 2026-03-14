@@ -81,7 +81,7 @@ Instead of modifying the base subscription class, we **wrap** it with decorator 
 
 **UML Class Diagram:**
 
-![Decorator Pattern UML Class Diagram](images/java_designpattern_decorator_im1_DecoratorPatternUMLClassDiagram.png)
+![Decorator Pattern UML Class Diagram](images/java_designpattern_decorator_im1_UMLClassDiagram.png)
 
 *This diagram shows the complete structure of the Decorator Pattern with the Member interface, LifetimeSubscription base class, abstract Decorator, and all concrete decorators (Assignments, DoubtSession, JobAssistance, OneOnOneMentorship).*
 
