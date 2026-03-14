@@ -81,7 +81,7 @@ Instead of modifying the base subscription class, we **wrap** it with decorator 
 
 **UML Class Diagram:**
 
-![Decorator Pattern UML Class Diagram](images/decorator-pattern-uml-class-diagram.png)
+![Decorator Pattern UML Class Diagram](images/java_designpattern_decorator_im1_DecoratorPatternUMLClassDiagram.png)
 
 *This diagram shows the complete structure of the Decorator Pattern with the Member interface, LifetimeSubscription base class, abstract Decorator, and all concrete decorators (Assignments, DoubtSession, JobAssistance, OneOnOneMentorship).*
 
@@ -130,7 +130,7 @@ classDiagram
 
 **Decorator Composition Flow:**
 
-![Decorator Composition Flow](images/decorator-composition-flow.png)
+![Decorator Composition Flow](images/java_designpattern_decorator_im2_DecoratorCompositionFlow.png)
 
 *This diagram illustrates how decorators wrap each other in layers, with each layer adding its cost to create the final membership price. Starting from $1,000 base subscription to $4,200 ultimate package.*
 
