@@ -60,12 +60,6 @@ public class Membership {
 4. **Revenue Loss**: Customers want mix-and-match, not fixed bundles
 5. **Slow Feature Launch**: Adding one feature = 2-week deployment cycle
 
-**Business Impact:**
-- Lost $500K in Q3 because customers wanted flexible pricing
-- 2-week lead time to launch new features
-- A/B testing requires code deployment
-- Competitors offering flexible add-ons stealing market share
-
 ## The Solution: Decorator Pattern
 
 The **Decorator Pattern** lets you add features to objects dynamically, like wrapping gifts in layers of paper.
@@ -85,70 +79,11 @@ Instead of modifying the base subscription class, we **wrap** it with decorator 
 
 *This diagram shows the complete structure of the Decorator Pattern with the Member interface, LifetimeSubscription base class, abstract Decorator, and all concrete decorators (Assignments, DoubtSession, JobAssistance, OneOnOneMentorship).*
 
-<!--
-```mermaid
-classDiagram
-    class Member {
-        <<interface>>
-        +cost() int
-    }
-    class LifetimeSubscription {
-        +cost() int : 1000
-    }
-    class Decorator {
-        <<abstract>>
-        #Member m
-        +cost() int
-    }
-    class Assignments {
-        +cost() int : m.cost() + 300
-    }
-    class DoubtSession {
-        +cost() int : m.cost() + 500
-    }
-    class JobAssistance {
-        +cost() int : m.cost() + 900
-    }
-    class OneOnOneMentorship {
-        +cost() int : m.cost() + 1500
-    }
-
-    Member <|.. LifetimeSubscription : implements
-    Member <|.. Decorator : implements
-    Decorator <|-- Assignments : extends
-    Decorator <|-- DoubtSession : extends
-    Decorator <|-- JobAssistance : extends
-    Decorator <|-- OneOnOneMentorship : extends
-    Decorator o-- Member : wraps
-
-    note for LifetimeSubscription "Base: $1000"
-    note for Assignments "Add: $300"
-    note for DoubtSession "Add: $500"
-    note for JobAssistance "Add: $900"
-```
--->
-
 **Decorator Composition Flow:**
 
 ![Decorator Composition Flow](images/java_designpattern_decorator_im2_DecoratorCompositionFlow.png)
 
 *This diagram illustrates how decorators wrap each other in layers, with each layer adding its cost to create the final membership price. Starting from $1,000 base subscription to $4,200 ultimate package.*
-
-<!--
-```mermaid
-graph LR
-    A[LifetimeSubscription<br/>$1000] --> B[Assignments<br/>$1000 + $300 = $1300]
-    B --> C[DoubtSession<br/>$1300 + $500 = $1800]
-    C --> D[JobAssistance<br/>$1800 + $900 = $2700]
-    D --> E[OneOnOneMentorship<br/>$2700 + $1500 = $4200]
-
-    style A fill:#FFE4B5
-    style B fill:#E0FFE0
-    style C fill:#E0F0FF
-    style D fill:#FFE0FF
-    style E fill:#FFD700
-```
--->
 
 ## Implementation
 
@@ -299,8 +234,6 @@ public class DoubtSession extends Decorator {
 | **Code Duplication** | High - every decorator repeats field & constructor | Low - extracted to base class |
 | **Flexibility** | Maximum - each decorator independent | Slightly less - inherit from base |
 | **Maintenance** | Hard - change field name = update all decorators | Easy - change in one place |
-| **Readability** | More code to read | Cleaner, focus on unique logic |
-| **Use When** | 1-2 decorators only | 3+ decorators (which is common) |
 
 **Recommendation:** Use abstract decorator when you have 3+ decorators. It's the industry standard.
 
@@ -559,31 +492,6 @@ public class MarketingService {
 - ✅ **A/B Testing**: Test feature bundles without code deployment
 - ✅ **Easy to Test**: Each feature independently testable
 
-**Revenue Growth:**
-- ✅ **Revenue Growth**: Dynamic add-ons increased average order value by **45%** ($1800 → $2610)
-- ✅ **Conversion Rate**: Flexible pricing increased signup conversion by **28%**
-- ✅ **Feature Adoption**: Job Assistance adopted by **67%** of premium users
-- ✅ **Development Speed**: New feature launch from **2 weeks** to **30 minutes**
-- ✅ **Testing Coverage**: Independent decorator testing - **95% coverage** vs previous 60%
-
-### Business Impact
-
-- **Customer Satisfaction**: Students love flexibility - **NPS score +18 points**
-- **Market Expansion**: Easily create region-specific feature bundles (India vs US vs Europe)
-- **Pricing Experiments**: Run **50+ A/B tests/month** on feature combinations
-- **Promotional Campaigns**: "Free Doubt Sessions for 3 months" = just don't add decorator temporarily
-- **Scalability**: Added 8 new features in 6 months with **zero refactoring**
-
-### Comparison: Before vs After Decorator Pattern
-
-| Metric | Before (Hardcoded) | After (Decorator) | Improvement |
-|--------|-------------------|-------------------|-------------|
-| Add new feature | 2-3 days (modify Membership class) | 30 minutes (new decorator) | **96x faster** |
-| Feature combinations to test | 2^n manual combinations | Independent + composable | **Exponentially easier** |
-| A/B tests per month | 2 (requires deployment) | 50+ (config change) | **25x more experiments** |
-| Average order value | $1,800 | $2,610 | **+45% revenue** |
-| Code maintenance | High (one big class) | Low (small focused classes) | **70% less time** |
-| Customer flexibility | Fixed packages | Mix & match features | **NPS +18** |
 
 ## Testing Benefits
 
@@ -1094,12 +1002,6 @@ if (membership instanceof Decorator) {
 ```
 
 ---
-
-**Remember:** Decorator Pattern enabled this EdTech platform to:
-- Launch features **20x faster**
-- Increase revenue per customer by **45%**
-- Run continuous pricing experiments
-- Scale from 3 to 11 feature offerings with **zero refactoring**
 
 **This is the power of structural patterns in production systems!** 🚀
 
