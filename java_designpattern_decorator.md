@@ -87,8 +87,11 @@ Instead of modifying the base subscription class, we **wrap** it with decorator 
 
 ## Implementation
 
-> **💡 Important Note About Abstract Decorator**  
-> The abstract `Decorator` class shown below is **optional** - it's just a convenience to avoid repeating code across multiple decorators. The Decorator Pattern works perfectly fine without it! See the "[Why Abstract Decorator? (It's Optional!)](#why-abstract-decorator-its-optional)" section below for details.
+**💡 Important Note About Abstract Decorator**
+
+The abstract `Decorator` class shown below is **optional** - it's just a convenience to avoid repeating code across multiple decorators. The Decorator Pattern works perfectly fine without it! See the "[Why Abstract Decorator? (It's Optional!)](#why-abstract-decorator-its-optional)" section below for details.
+
+---
 
 ### Step 1: Define the Component Interface
 
