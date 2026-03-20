@@ -1,0 +1,26 @@
+sequenceDiagram
+    participant Customer
+    participant Client
+    participant PaymentStrategy
+    participant Payment
+    participant CreditCard
+
+    Customer->>Client: Select Credit Card payment
+    Client->>Client: Create payment object
+    activate Client
+    Note over Client: new CreditCard("4532...", "123", "12/25")
+    deactivate Client
+    
+    Client->>PaymentStrategy: pay(creditCardObject)
+    activate PaymentStrategy
+    PaymentStrategy->>PaymentStrategy: calculateTotal()
+    Note over PaymentStrategy: amount = $1225
+    PaymentStrategy->>CreditCard: pay(1225)
+    activate CreditCard
+    CreditCard-->>CreditCard: Process credit card
+    Note over CreditCard: Validate card, call gateway
+    CreditCard-->>PaymentStrategy: Success
+    deactivate CreditCard
+    PaymentStrategy-->>Client: Payment complete
+    deactivate PaymentStrategy
+    Client-->>Customer: Show confirmation

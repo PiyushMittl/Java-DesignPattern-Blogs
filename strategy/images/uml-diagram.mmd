@@ -1,0 +1,40 @@
+classDiagram
+    class Payment {
+        <<interface>>
+        +pay(amount: int) void
+    }
+    class CreditCard {
+        -cardNo: String
+        -cvv: String
+        -dateOfExpiry: String
+        +pay(amount: int) void
+    }
+    class Paypal {
+        -emailId: String
+        -password: String
+        +pay(amount: int) void
+    }
+    class Bitcoin {
+        -walletAddress: String
+        +pay(amount: int) void
+    }
+    class ApplePay {
+        -appleId: String
+        +pay(amount: int) void
+    }
+    class PaymentStrategy {
+        -items: List~Item~
+        +addItem(item: Item) void
+        +calculateTotal() int
+        +pay(method: Payment) void
+    }
+
+    Payment <|.. CreditCard : implements
+    Payment <|.. Paypal : implements
+    Payment <|.. Bitcoin : implements
+    Payment <|.. ApplePay : implements
+    PaymentStrategy --> Payment : uses
+
+    note for Payment "Strategy Interface"
+    note for CreditCard "Concrete Strategy"
+    note for PaymentStrategy "Context Class"
