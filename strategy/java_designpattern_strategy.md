@@ -1,5 +1,9 @@
 # Strategy Pattern: Building a Flexible E-Commerce Payment System
 
+![Strategy Pattern Thumbnail](images/StrategyThumbnail.png)
+
+---
+
 ## The Problem: E-Commerce Payment Processing Nightmare
 
 Imagine you're building an e-commerce platform. You start with **Credit Card** payments. Business is happy, customers are buying. Then your boss says:
